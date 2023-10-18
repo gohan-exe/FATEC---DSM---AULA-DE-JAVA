@@ -20,7 +20,7 @@ public class Hulk {
 
     void Gritar() {
         if (superForca && radiacaoGamma && fatorRegenerativo && Fisico) {
-            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!");
 
         }
     }
