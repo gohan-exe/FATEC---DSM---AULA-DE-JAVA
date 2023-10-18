@@ -48,7 +48,7 @@ public class App {
         TI.tipo = "Tigre de Bengala";
 
         Roteador RO = new Roteador();
-        RO.marca = "TP-Link AC 1350";
+        RO.marca = "AC 1350";
         RO.modelo = "TP-Link";
         RO.portas = 1;
         RO.transmiteWifi = true;
