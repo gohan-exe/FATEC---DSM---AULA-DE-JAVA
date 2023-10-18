@@ -55,7 +55,7 @@ public class App {
 
         Smartwatch SW = new Smartwatch();
         SW.marca = "Xiaomi";
-        SW.modelo = "Xiaomi Mi Watch Lite Global";
+        SW.modelo = "Mi Watch Lite Global";
         SW.peso = 35.0f;
     }
 }
