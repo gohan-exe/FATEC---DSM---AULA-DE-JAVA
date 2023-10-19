@@ -5,6 +5,9 @@ public class App {
         PC.fonte = 600;
         PC.Processador = "Processor intel 9400f";
         PC.placaMae = "H310 Motherboard";
+        PC.Ligar();
+        PC.Desligar();
+        PC.Reiniciar();
 
         Telescopio TL = new Telescopio();
         TL.distancia = 30.000f;
