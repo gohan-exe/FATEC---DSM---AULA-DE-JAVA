@@ -1,0 +1,5 @@
+# Created at 2024-03-25T21:02:54.738
+Boot Manifest-JAR contains absolute paths in classpath 'D:\Windows 10\Documents\Documentos FATEC\Banco de Dados Não Relacional\Nova pasta\demo\demo\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+
