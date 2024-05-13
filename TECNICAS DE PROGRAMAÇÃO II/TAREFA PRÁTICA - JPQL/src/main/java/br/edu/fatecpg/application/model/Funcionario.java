@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -13,13 +12,22 @@ public class Funcionario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
+    private long id;
     private String nome;
     private String cpf;
     private String email;
+    private double salario;
 
     @ManyToOne
-    @JoinColumn(name = "departamento_id")
     private Departamento departamento;
+
+    public Funcionario() {
+    }
+
+    public Funcionario(String nome, double salario) {
+        this.nome = nome;
+        this.salario = salario;
+    }
 
     public String getNome() {
         return nome;
@@ -45,6 +53,14 @@ public class Funcionario {
         this.email = email;
     }
 
+    public Double getSalario() {
+        return salario;
+    }
+
+    public void setSalario(Double salario) {
+        this.salario = salario;
+    }
+
     public Departamento getDepartamento() {
         return departamento;
     }
@@ -53,4 +69,8 @@ public class Funcionario {
         this.departamento = departamento;
     }
 
+    @Override
+    public String toString() {
+        return ("Funcionario [id=" + id + ", nome=" + nome + " salario=" + salario + "]");
+    }
 }
