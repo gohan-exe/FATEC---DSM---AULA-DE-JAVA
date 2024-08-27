@@ -4,7 +4,7 @@ import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse.BodyHandlers
-
+import com.google.gson.Gson
 
 class Consumo {
     fun buscaEndereco(cep: String): Endereco {
