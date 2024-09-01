@@ -23,6 +23,9 @@ class MainActivity : AppCompatActivity() {
 
             if (cep.isNotEmpty()) {
                 if (cep.matches(Regex("^[0-9]{8}$"))) {
+                    val intent = Intent(this, ResultadoActivity::class.java)
+                    intent.putExtra("CEP", cep)
+                    startActivity(intent)
                     Toast.makeText(this, "CEP encontrado com sucesso!", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, "O CEP digitado não existe.", Toast.LENGTH_SHORT).show()
@@ -34,13 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         fabPesquisar.setOnClickListener {
             val cep = editTextCep.text.toString()
-            if (cep.isNotEmpty()) {
-                val intent = Intent(this, ResultadoActivity::class.java)
-                intent.putExtra("CEP", cep)
-                startActivity(intent)
-            } else {
-                Toast.makeText(this, "Digite um CEP válido para continuar", Toast.LENGTH_SHORT).show()
-            }
+            Toast.makeText(this, "Clique em Buscar para ir na proxima pagina.", Toast.LENGTH_SHORT).show()
         }
     }
 }
