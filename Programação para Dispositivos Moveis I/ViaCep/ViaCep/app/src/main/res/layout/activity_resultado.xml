@@ -1,0 +1,72 @@
+<!-- res/layout/activity_resultado.xml -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.ResultadoActivity">
+
+    <!-- Conteúdo da Tela -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Parte Superior Verde -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/via_cep_green_dark"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:gravity="center">
+
+            <!-- Título da Tela de Resultado -->
+            <TextView
+                android:id="@+id/titleResultText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Resultado da Consulta"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Resultado da Consulta -->
+            <TextView
+                android:id="@+id/textViewResultado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:layout_marginBottom="16dp"/>
+        </LinearLayout>
+
+        <!-- Parte Inferior Branca -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@android:color/white"
+            android:gravity="center">
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Botão Flutuante para Voltar -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabVoltar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:elevation="8dp"
+        android:src="@android:drawable/ic_menu_revert"
+        app:backgroundTint="@color/via_cep_green"
+        app:tint="@android:color/white" />
+</RelativeLayout>
