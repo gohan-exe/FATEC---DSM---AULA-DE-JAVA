@@ -1,4 +1,3 @@
-<!-- res/layout/activity_resultado.xml -->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,13 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".ui.ResultadoActivity">
 
-    <!-- Conteúdo da Tela -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- Parte Superior Verde -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -23,7 +20,6 @@
             android:padding="16dp"
             android:gravity="center">
 
-            <!-- Título da Tela de Resultado -->
             <TextView
                 android:id="@+id/titleResultText"
                 android:layout_width="wrap_content"
@@ -34,7 +30,6 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="16dp"/>
 
-            <!-- Resultado da Consulta -->
             <TextView
                 android:id="@+id/textViewResultado"
                 android:layout_width="wrap_content"
@@ -45,7 +40,6 @@
                 android:layout_marginBottom="16dp"/>
         </LinearLayout>
 
-        <!-- Parte Inferior Branca -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -57,7 +51,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Botão Flutuante para Voltar -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabVoltar"
         android:layout_width="wrap_content"

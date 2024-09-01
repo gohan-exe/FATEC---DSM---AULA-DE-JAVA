@@ -1,4 +1,3 @@
-<!-- res/layout/activity_main.xml -->
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,13 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
 
-    <!-- Layout Principal -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- Parte Superior Verde -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -23,7 +20,6 @@
             android:padding="16dp"
             android:gravity="center">
 
-            <!-- Imagem do Logotipo com Fundo Verde Escuro -->
             <ImageView
                 android:id="@+id/logoImageView"
                 android:layout_width="wrap_content"
@@ -31,7 +27,6 @@
                 android:layout_marginTop="24dp"
                 android:src="@drawable/logo_viacep"/>
 
-            <!-- Título do App com Texto Branco -->
             <TextView
                 android:id="@+id/titleText"
                 android:layout_width="wrap_content"
@@ -43,7 +38,6 @@
                 android:textStyle="bold"/>
         </LinearLayout>
 
-        <!-- Parte Inferior Branca para o Conteúdo do App -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -52,7 +46,6 @@
             android:padding="16dp"
             android:background="@android:color/white">
 
-            <!-- Campo de texto para digitar o CEP -->
             <EditText
                 android:id="@+id/editTextCep"
                 android:layout_width="match_parent"
@@ -66,7 +59,6 @@
                 android:layout_marginBottom="16dp"
                 android:textColorHint="@color/hint_gray"/>
 
-            <!-- Botão de busca estilizado -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnBuscar"
                 android:layout_width="wrap_content"
@@ -83,7 +75,6 @@
 
     </LinearLayout>
 
-    <!-- Botão flutuante para pesquisar -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabPesquisar"
         android:layout_width="wrap_content"

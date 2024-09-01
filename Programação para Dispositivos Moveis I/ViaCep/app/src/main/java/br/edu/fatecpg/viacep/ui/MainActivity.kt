@@ -18,17 +18,20 @@ class MainActivity : AppCompatActivity() {
         val btnBuscar = findViewById<Button>(R.id.btnBuscar)
         val fabPesquisar = findViewById<FloatingActionButton>(R.id.fabPesquisar)
 
-        // Ação para o botão de busca (mostrar o toast)
         btnBuscar.setOnClickListener {
             val cep = editTextCep.text.toString()
+
             if (cep.isNotEmpty()) {
-                Toast.makeText(this, "CEP encontrado com sucesso!", Toast.LENGTH_SHORT).show()
+                if (cep.matches(Regex("^[0-9]{8}$"))) { // Verifica se o CEP tem exatamente 8 dígitos
+                    Toast.makeText(this, "CEP encontrado com sucesso!", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "O CEP digitado não existe.", Toast.LENGTH_SHORT).show()
+                }
             } else {
-                Toast.makeText(this, "Digite um CEP válido", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Por favor, digite um CEP.", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Ação para o botão flutuante (abrir página de resultados)
         fabPesquisar.setOnClickListener {
             val cep = editTextCep.text.toString()
             if (cep.isNotEmpty()) {
