@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         fabPesquisar.setOnClickListener {
             val cep = editTextCep.text.toString()
-            Toast.makeText(this, "Clique em Buscar para ir na proxima pagina.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Erro! Clique em Buscar para ir na proxima pagina.", Toast.LENGTH_SHORT).show()
         }
     }
 }
