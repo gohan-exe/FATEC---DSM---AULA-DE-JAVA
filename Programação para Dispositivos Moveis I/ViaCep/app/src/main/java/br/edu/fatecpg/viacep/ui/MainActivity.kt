@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
             val cep = editTextCep.text.toString()
 
             if (cep.isNotEmpty()) {
-                if (cep.matches(Regex("^[0-9]{8}$"))) { // Verifica se o CEP tem exatamente 8 dígitos
+                if (cep.matches(Regex("^[0-9]{8}$"))) {
                     Toast.makeText(this, "CEP encontrado com sucesso!", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, "O CEP digitado não existe.", Toast.LENGTH_SHORT).show()
