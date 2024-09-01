@@ -10,6 +10,8 @@ import br.edu.fatecpg.viacep.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
+    private var cepRegistrado: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -23,9 +25,7 @@ class MainActivity : AppCompatActivity() {
 
             if (cep.isNotEmpty()) {
                 if (cep.matches(Regex("^[0-9]{8}$"))) {
-                    val intent = Intent(this, ResultadoActivity::class.java)
-                    intent.putExtra("CEP", cep)
-                    startActivity(intent)
+                    cepRegistrado = cep
                     Toast.makeText(this, "CEP encontrado com sucesso!", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, "O CEP digitado não existe.", Toast.LENGTH_SHORT).show()
@@ -37,7 +37,14 @@ class MainActivity : AppCompatActivity() {
 
         fabPesquisar.setOnClickListener {
             val cep = editTextCep.text.toString()
-            Toast.makeText(this, "Erro! Clique em Buscar para ir na proxima pagina.", Toast.LENGTH_SHORT).show()
+
+            if (cepRegistrado != null && cepRegistrado == cep) {
+                val intent = Intent(this, ResultadoActivity::class.java)
+                intent.putExtra("CEP", cepRegistrado)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Erro! Clique em Buscar ou Digite um CEP correto!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
