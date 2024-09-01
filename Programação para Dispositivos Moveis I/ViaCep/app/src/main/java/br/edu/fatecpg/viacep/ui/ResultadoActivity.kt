@@ -27,8 +27,6 @@ class ResultadoActivity : AppCompatActivity() {
                     if (endereco != null) {
                         textViewResultado.text = endereco.toString()
                         Log.d("ResultadoActivity", endereco.toString())
-                    } else {
-                        textViewResultado.text = "CEP não encontrado."
                     }
                 }
             }.start()
