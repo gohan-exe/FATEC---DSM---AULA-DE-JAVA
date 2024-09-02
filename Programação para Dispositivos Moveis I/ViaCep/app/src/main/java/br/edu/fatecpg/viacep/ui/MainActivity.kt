@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
             if (cep.isNotEmpty()) {
                 if (cep.matches(Regex("^[0-9]{8}$"))) {
                     cepRegistrado = cep
-                    Toast.makeText(this, "CEP encontrado com sucesso!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Um CEP foi inserido com sucesso!", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, "O CEP digitado não existe.", Toast.LENGTH_SHORT).show()
                 }
