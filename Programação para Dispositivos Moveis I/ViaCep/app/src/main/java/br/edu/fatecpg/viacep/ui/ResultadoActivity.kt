@@ -3,6 +3,7 @@ package br.edu.fatecpg.viacep.ui
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.fatecpg.viacep.R
 import br.edu.fatecpg.viacep.model.Endereco
@@ -27,6 +28,9 @@ class ResultadoActivity : AppCompatActivity() {
                     if (endereco != null) {
                         textViewResultado.text = endereco.toString()
                         Log.d("ResultadoActivity", endereco.toString())
+                    } else {
+                        textViewResultado.text = getString(R.string.cep_incorreto)
+                        Toast.makeText(this, getString(R.string.cep_incorreto), Toast.LENGTH_SHORT).show()
                     }
                 }
             }.start()
@@ -48,19 +52,23 @@ class ResultadoActivity : AppCompatActivity() {
             if (connection.responseCode == 200) {
                 val response = connection.inputStream.bufferedReader().use { it.readText() }
                 val jsonObject = JSONObject(response)
-
-                Endereco(
-                    jsonObject.getString("cep"),
-                    jsonObject.getString("logradouro"),
-                    jsonObject.getString("complemento"),
-                    jsonObject.getString("bairro"),
-                    jsonObject.getString("localidade"),
-                    jsonObject.getString("uf"),
-                    jsonObject.getString("ibge"),
-                    jsonObject.getString("gia"),
-                    jsonObject.getString("ddd"),
-                    jsonObject.getString("siafi")
-                )
+                
+                if (jsonObject.has("erro")) {
+                    null
+                } else {
+                    Endereco(
+                        jsonObject.getString("cep"),
+                        jsonObject.getString("logradouro"),
+                        jsonObject.getString("complemento"),
+                        jsonObject.getString("bairro"),
+                        jsonObject.getString("localidade"),
+                        jsonObject.getString("uf"),
+                        jsonObject.getString("ibge"),
+                        jsonObject.getString("gia"),
+                        jsonObject.getString("ddd"),
+                        jsonObject.getString("siafi")
+                    )
+                }
             } else {
                 null
             }
