@@ -1,4 +1,3 @@
-// AdminActivity.kt
 package br.edu.fatecpg.mvvm.view
 
 import android.os.Bundle
