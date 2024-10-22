@@ -14,8 +14,6 @@ data class User(
     val lastName: String?,
     @ColumnInfo(name = "email")
     val email: String?,
-    @ColumnInfo(name = "foto_de_perfil")
-    val fotoDePerfil: String?
+    @ColumnInfo(name = "profile_picture")
+    val profilePicture: String?
 )
-
-
