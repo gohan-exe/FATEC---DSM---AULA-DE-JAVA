@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-<<<<<<< HEAD:Programação para Dispositivos Moveis I/Room(Backup1)/app/src/main/AndroidManifest.xml
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -15,10 +14,6 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32"
         tools:ignore="ScopedStorage" />
-=======
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
->>>>>>> 7d1ece7199b86600a783b81936368b8712b55042:Programação para Dispositivos Moveis I/PersistenciaRoom/app/src/main/AndroidManifest.xml
 
     <application
         android:allowBackup="true"
@@ -32,11 +27,7 @@
         tools:targetApi="31">
 
         <activity
-<<<<<<< HEAD:Programação para Dispositivos Moveis I/Room(Backup1)/app/src/main/AndroidManifest.xml
             android:name=".views.MainActivity"
-=======
-            android:name="br.edu.fatecpg.room.view.MainActivity"
->>>>>>> 7d1ece7199b86600a783b81936368b8712b55042:Programação para Dispositivos Moveis I/PersistenciaRoom/app/src/main/AndroidManifest.xml
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,8 +44,5 @@
             android:exported="true" />
     </application>
 
-<<<<<<< HEAD:Programação para Dispositivos Moveis I/Room(Backup1)/app/src/main/AndroidManifest.xml
 
-=======
->>>>>>> 7d1ece7199b86600a783b81936368b8712b55042:Programação para Dispositivos Moveis I/PersistenciaRoom/app/src/main/AndroidManifest.xml
 </manifest>
