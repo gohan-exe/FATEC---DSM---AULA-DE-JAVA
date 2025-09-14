@@ -50,8 +50,8 @@ Os testes estão em `AppUtilsTest.java`. Cada método possui **validação posit
 ```
 10 é par? true
 7 é par? false
-"Hoje tem aula de Java" contém "java"? true
-"Hoje tem aula de Python" contém "java"? false
+"Dutra gosta de Java" contém "java"? true
+"Dutra gosta de Python" contém "java"? false
 Login admin/1234 válido? true
 Login user/senha válido? false
 20 é maior de idade? true
