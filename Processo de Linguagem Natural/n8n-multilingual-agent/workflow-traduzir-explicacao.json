@@ -3,34 +3,16 @@
   "nodes": [
     {
       "parameters": {
-        "promptType": "define",
-        "text": "={{ $json.body.text }}",
-        "options": {
-          "systemMessage": "=Você é um agente de explicação multilíngue confiável. \nSua tarefa é traduzir um texto e explicar o conteúdo no idioma destino em detalhes.\nSempre responda apenas em JSON com os campos: translated, explanation, teacherMode.\nNunca adicione comentários ou textos fora do JSON."
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 3,
-      "position": [
-        496,
-        32
-      ],
-      "id": "c3ac688f-6913-474d-9bd5-f1c41bb2308b",
-      "name": "AI Agent",
-      "alwaysOutputData": false
-    },
-    {
-      "parameters": {
         "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        416,
-        240
+        1120,
+        224
       ],
-      "id": "5f936f2c-3ea8-44cd-9bcd-9b7b1d663065",
+      "id": "44827879-87bf-45d0-9336-44f557043ab3",
       "name": "Groq Chat Model",
       "credentials": {
         "groqApi": {
@@ -50,11 +32,42 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        1024,
-        32
+        1728,
+        16
       ],
-      "id": "ae0eb828-b829-4cc3-af6d-3be24bedc9de",
+      "id": "7ef8a182-22e4-417a-ac1d-21527575930a",
       "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pega todos os inputs do node anterior\nconst previousItems = $input.all();\n\n// Pega a saída do AI Agent\nlet aiOutputRaw = previousItems[0]?.json?.output || \"\";\n\n// Caso venha Markdown com ```json ... ``` remove\naiOutputRaw = aiOutputRaw.replace(/^```json\\s*/, \"\").replace(/\\s*```$/, \"\");\n\n// Aqui vamos tratar o texto bruto:\n// - A primeira frase será considerada a tradução\n// - O resto será a explicação\nlet translatedText = \"\";\nlet explanationText = \"\";\n\nif (aiOutputRaw.trim() !== \"\") {\n    // Quebra em sentenças pelo ponto\n    const sentences = aiOutputRaw.split(\". \");\n    if (sentences.length > 0) {\n        translatedText = sentences[0].trim();\n        explanationText = sentences.slice(1).join(\". \").trim();\n    }\n}\n\n// Monta o JSON final\nconst output = {\n    translated: translatedText || \"Sem tradução\",\n    explanation: explanationText || \"Sem explicação\",\n    timestamp: new Date().toISOString()\n};\n\n// Retorna no formato que o n8n espera\nreturn [\n    { json: output }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1536,
+        16
+      ],
+      "id": "ad48d955-bf4a-4c00-858d-931605e44e65",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.text }}",
+        "options": {
+          "systemMessage": "=Você é um agente de explicação multilíngue confiável. \nSua tarefa é traduzir um texto e explicar o conteúdo no idioma destino.\nSempre responda apenas em JSON com os campos: translated, explanation.\nNunca adicione comentários ou textos fora do JSON."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        1200,
+        16
+      ],
+      "id": "9adc75b9-7392-4ade-b27c-cd1f5f6ebd01",
+      "name": "AI Agent1",
+      "alwaysOutputData": false
     },
     {
       "parameters": {
@@ -66,25 +79,12 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        256,
-        32
+        960,
+        16
       ],
-      "id": "ecf4188e-ff00-40a4-b5bb-3397f50aac0a",
-      "name": "Webhook",
+      "id": "9df5a9c5-e78e-4914-a0aa-04950f6785c8",
+      "name": "Webhook1",
       "webhookId": "e00ef1d9-e501-4978-b55c-b1653ed54e3b"
-    },
-    {
-      "parameters": {
-        "jsCode": "// Pega todos os inputs do node anterior\nconst previousItems = $input.all();\n\n// Pega a string do AI Agent\nlet aiOutputRaw = previousItems[0]?.json?.output || \"{}\";\n\n// Remove o bloco Markdown ```json ... ```\naiOutputRaw = aiOutputRaw.replace(/^```json\\s*/, \"\").replace(/\\s*```$/, \"\");\n\n// Tenta converter em JSON\nlet aiData;\ntry {\n    aiData = JSON.parse(aiOutputRaw);\n} catch (error) {\n    aiData = {\n        translated: \"Erro ao processar a tradução\",\n        explanation: \"Não foi possível gerar a explicação\",\n    };\n}\n\n// Monta o JSON final\nconst output = {\n    translated: aiData.translated || \"Sem tradução\",\n    explanation: aiData.explanation || \"Sem explicação\",\n    timestamp: new Date().toISOString()\n};\n\n// Retorna no formato que o n8n espera\nreturn [\n    { json: output }\n];"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        832,
-        32
-      ],
-      "id": "f770f346-e961-415a-b986-a1f27fc493cf",
-      "name": "Code in JavaScript"
     }
   ],
   "pinData": {},
@@ -93,30 +93,8 @@
       "ai_languageModel": [
         [
           {
-            "node": "AI Agent",
+            "node": "AI Agent1",
             "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "AI Agent": {
-      "main": [
-        [
-          {
-            "node": "Code in JavaScript",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Webhook": {
-      "main": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "main",
             "index": 0
           }
         ]
@@ -132,13 +110,35 @@
           }
         ]
       ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "78a045fc-15af-4728-af8c-5e1313c3d265",
+  "versionId": "8ddddfd6-e409-4445-9e37-1fd82b430dce",
   "meta": {
     "instanceId": "19e98b8bee83825559eb1bbf66761b1212f31f4e7689daa0d550c1df5548ad1b"
   },
