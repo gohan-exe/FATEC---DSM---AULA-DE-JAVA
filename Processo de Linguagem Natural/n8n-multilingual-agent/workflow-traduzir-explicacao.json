@@ -24,7 +24,7 @@
     {
       "parameters": {
         "respondWith": "text",
-        "responseBody": "={{ $json.translated }} {{ $json.explanation }}",
+        "responseBody": "={\n    \"translated\": {{ $json.translated }},\n    \"explanation\": {{ $json.explanation }},\n    \"timestamp\": {{ $json.timestamp }}\n}",
         "options": {
           "responseCode": 200
         }
@@ -40,7 +40,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Pega todos os inputs do node anterior\nconst previousItems = $input.all();\n\n// Pega a saída do AI Agent\nlet aiOutputRaw = previousItems[0]?.json?.output || \"\";\n\n// Caso venha Markdown com ```json ... ``` remove\naiOutputRaw = aiOutputRaw.replace(/^```json\\s*/, \"\").replace(/\\s*```$/, \"\");\n\n// Aqui vamos tratar o texto bruto:\n// - A primeira frase será considerada a tradução\n// - O resto será a explicação\nlet translatedText = \"\";\nlet explanationText = \"\";\n\nif (aiOutputRaw.trim() !== \"\") {\n    // Quebra em sentenças pelo ponto\n    const sentences = aiOutputRaw.split(\". \");\n    if (sentences.length > 0) {\n        translatedText = sentences[0].trim();\n        explanationText = sentences.slice(1).join(\". \").trim();\n    }\n}\n\n// Monta o JSON final\nconst output = {\n    translated: translatedText || \"Sem tradução\",\n    explanation: explanationText || \"Sem explicação\",\n    timestamp: new Date().toISOString()\n};\n\n// Retorna no formato que o n8n espera\nreturn [\n    { json: output }\n];\n"
+        "jsCode": "// Pega todos os inputs do node anterior\nconst previousItems = $input.all();\n\n// Pega a saída bruta do AI Agent\nlet aiOutputRaw = previousItems[0]?.json?.output || \"\";\naiOutputRaw = aiOutputRaw.trim();\n\n// Remove blocos markdown ```json ... ```\naiOutputRaw = aiOutputRaw\n    .replace(/```json/gi, \"\")\n    .replace(/```/g, \"\")\n    .trim();\n\n// Tenta converter diretamente para JSON, caso o modelo já tenha obedecido\nlet parsed = null;\ntry {\n    parsed = JSON.parse(aiOutputRaw);\n} catch (err) {\n    parsed = null;\n}\n\n// Se já veio JSON válido, simplesmente retorna formatado\nif (parsed && typeof parsed === \"object\") {\n    return [\n        {\n            json: {\n                translated: parsed.translated || \"Sem tradução\",\n                explanation: parsed.explanation || \"Sem explicação\",\n                timestamp: new Date().toISOString()\n            }\n        }\n    ];\n}\n\n// -----------------------------\n//   TRATAMENTO PARA TEXTO BRUTO\n// -----------------------------\n\n// Usa regex para dividir frases corretamente sem quebrar abreviações\nconst sentenceRegex = /(?<=[^.]\\.|\\?|!)\\s+(?=[A-ZÀ-Ú])/;\n\nlet sentences = aiOutputRaw.split(sentenceRegex).map(s => s.trim()).filter(s => s);\n\n// Se nada foi encontrado (texto muito curto ou sem pontuação)\nif (sentences.length === 0) {\n    return [\n        {\n            json: {\n                translated: aiOutputRaw,\n                explanation: \"\",\n                timestamp: new Date().toISOString()\n            }\n        }\n    ];\n}\n\n// Primeira frase = tradução\nconst translatedText = sentences[0];\n\n// Restante = explicação\nconst explanationText = sentences.slice(1).join(\" \").trim();\n\n// Monta o JSON final\nconst output = {\n    translated: translatedText || \"Sem tradução\",\n    explanation: explanationText || \"Sem explicação\",\n    timestamp: new Date().toISOString()\n};\n\n// Retorno padrão do n8n\nreturn [\n    { json: output }\n];\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -56,7 +56,7 @@
         "promptType": "define",
         "text": "={{ $json.body.text }}",
         "options": {
-          "systemMessage": "=Você é um agente de explicação multilíngue confiável. \nSua tarefa é traduzir um texto e explicar o conteúdo no idioma destino.\nSempre responda apenas em JSON com os campos: translated, explanation.\nNunca adicione comentários ou textos fora do JSON."
+          "systemMessage": "=Você é um agente de explicação multilíngue confiável. \nSua tarefa é traduzir um texto e explicar o conteúdo no idioma destino com muitos detalhes.\nSempre responda apenas em JSON com os campos: translated, explanation.\nNunca adicione comentários ou textos fora do JSON."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -138,7 +138,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "8ddddfd6-e409-4445-9e37-1fd82b430dce",
+  "versionId": "23e9e8e3-a30e-4321-a6d2-47c315025049",
   "meta": {
     "instanceId": "19e98b8bee83825559eb1bbf66761b1212f31f4e7689daa0d550c1df5548ad1b"
   },
