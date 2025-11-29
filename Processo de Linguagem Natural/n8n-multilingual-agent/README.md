@@ -42,6 +42,5 @@ O workflow permite receber textos via webhook, traduzir e gerar explicações mu
 ```json
 {
   "translated": "MechWarrior 5 é um excelente jogo.",
-  "explanation": "MechWarrior 5 é um jogo de simulação de mecha desenvolvido pela Piranha Games. A série MechWarrior é baseada no universo de BattleTech, um mundo de ficção científica onde robôs gigantes chamados 'Mechs' lutam em batalhas épicas. O jogo oferece uma experiência imersiva com gráficos de alta qualidade e uma jogabilidade intensa.",
-  "timestamp": "2025-11-29T21:45:00.000Z"
+  "explanation": "MechWarrior 5 é um jogo de simulação de mecha desenvolvido pela Piranha Games. A série MechWarrior é baseada no universo de BattleTech, um mundo de ficção científica onde robôs gigantes chamados 'Mechs' lutam em batalhas épicas. O jogo oferece uma experiência imersiva com gráficos de alta qualidade e uma jogabilidade intensa."
 }
