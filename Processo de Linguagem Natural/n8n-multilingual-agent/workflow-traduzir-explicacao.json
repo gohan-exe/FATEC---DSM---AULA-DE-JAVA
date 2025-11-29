@@ -1,0 +1,148 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.text }}",
+        "options": {
+          "systemMessage": "=Você é um agente de explicação multilíngue confiável. \nSua tarefa é traduzir um texto e explicar o conteúdo no idioma destino.\nSempre responda apenas em JSON com os campos: translated, explanation, teacherMode.\nSe teacherMode for true, explique detalhadamente; se for false, explique de forma direta.\nNunca adicione comentários ou textos fora do JSON."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        192,
+        16
+      ],
+      "id": "c210ceac-ce46-4375-a7fd-72e33adcb954",
+      "name": "AI Agent",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        112,
+        224
+      ],
+      "id": "e83f7603-f7aa-4001-a8b6-b18229113e96",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "z4B5RDoinVXaRRI5",
+          "name": "Groq account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.translated }} {{ $json.explanation }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        720,
+        16
+      ],
+      "id": "b5d6ffd0-6dc2-4e1d-92b4-c82f5bf0f3ad",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "traduzir-explicacao",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -48,
+        16
+      ],
+      "id": "37ea37e1-0b50-4503-b093-28c13866c84f",
+      "name": "Webhook",
+      "webhookId": "e00ef1d9-e501-4978-b55c-b1653ed54e3b"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pega todos os inputs do node anterior\nconst previousItems = $input.all();\n\n// Pega a string do AI Agent\nlet aiOutputRaw = previousItems[0]?.json?.output || \"{}\";\n\n// Remove o bloco Markdown ```json ... ```\naiOutputRaw = aiOutputRaw.replace(/^```json\\s*/, \"\").replace(/\\s*```$/, \"\");\n\n// Tenta converter em JSON\nlet aiData;\ntry {\n    aiData = JSON.parse(aiOutputRaw);\n} catch (error) {\n    aiData = {\n        translated: \"Erro ao processar a tradução\",\n        explanation: \"Não foi possível gerar a explicação\",\n        teacherMode: false\n    };\n}\n\n// Monta o JSON final\nconst output = {\n    translated: aiData.translated || \"Sem tradução\",\n    explanation: aiData.explanation || \"Sem explicação\",\n    teacherMode: Boolean(aiData.teacherMode),\n    timestamp: new Date().toISOString()\n};\n\n// Retorna no formato que o n8n espera\nreturn [\n    { json: output }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        528,
+        16
+      ],
+      "id": "882eebb9-e711-4fe1-8c79-e5d2701449c9",
+      "name": "Code in JavaScript"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "760d1db6-81de-40a6-89da-7ffa4193d29c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "19e98b8bee83825559eb1bbf66761b1212f31f4e7689daa0d550c1df5548ad1b"
+  },
+  "id": "gJHKVB81pkFYtj3J",
+  "tags": []
+}
